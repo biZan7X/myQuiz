@@ -1,4 +1,6 @@
-import react from "react";
+import react, { useState } from "react";
+import ComputerScreen from "./components/ComputerScreen";
+import ScoreCard from "./components/ScoreCard";
 
 const questions = [
 	{
@@ -7,6 +9,7 @@ const questions = [
 		option2: "Tony Stark",
 		option3: "Bill Gates",
 		option4: "Nikola Tesla",
+		answer: 1,
 	},
 	{
 		question: "which is the most valuable IT company in the world ?",
@@ -14,6 +17,7 @@ const questions = [
 		option2: "Infosys",
 		option3: "TCS",
 		option4: "CTS",
+		answer: 3,
 	},
 	{
 		question: "who is father of computer science",
@@ -21,11 +25,31 @@ const questions = [
 		option2: "Bill Gates",
 		option3: "Allen turing",
 		option4: "Dennis Ritchie ",
+		answer: 3,
 	},
 ];
 
 const App = () => {
-	return <div className="container">{questions[0].question}</div>;
+	const [score, setScore] = useState(0);
+	return (
+		<div className="container border border-primary d-flex">
+			<div className="flex-grow-1">
+				<ComputerScreen
+					questions={questions}
+					updateScore={setScore}
+					score={score}
+				/>
+			</div>
+			<div className="scores">
+				<ScoreCard score={score} />
+			</div>
+		</div>
+	);
 };
+
+/*
+			
+			
+*/
 
 export default App;
