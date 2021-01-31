@@ -1,7 +1,17 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 
-const ComputerScreen = ({ questions, updateScore, score }) => {
+const ComputerScreen = ({
+	questions,
+	updateScore,
+	score,
+	setGreen,
+	setRed,
+}) => {
 	const [current, setCurrent] = useState(0);
+
+	useEffect(() => {
+		if (current === 0) updateScore(0);
+	}, [current]);
 
 	const optionArr = [
 		questions[current].option1,
@@ -11,12 +21,18 @@ const ComputerScreen = ({ questions, updateScore, score }) => {
 	];
 
 	const onCLickHandler = (index) => {
-		if (current === 0) updateScore(0);
-
 		if (index + 1 === questions[current].answer) {
+			setGreen(true);
+			setTimeout(() => {
+				setGreen(false);
+			}, 1000);
 			updateScore(score + 1);
-			alert("correct answer , the score is : " + ++score);
-		} else alert("wrong answer idiot! , the score is : " + score);
+		} else {
+			setRed(true);
+			setTimeout(() => {
+				setRed(false);
+			}, 1000);
+		}
 
 		setCurrent((current + 1) % questions.length);
 	};
@@ -25,15 +41,15 @@ const ComputerScreen = ({ questions, updateScore, score }) => {
 		return (
 			<div
 				onClick={() => onCLickHandler(index)}
-				className="option btn bg-info rounded-pill p-3 m-3 text-white border border-success text-center"
+				className={`option btn rounded-pill p-3 m-3 text-white border border-3 border-warning text-center }`}
 			>
 				{option}
 			</div>
 		);
 	});
 	return (
-		<div className="container border border-danger flex-grow-1">
-			<div className="question bg-info rounded-pill p-5 m-5 text-white border border-warning shadow-lg">
+		<div className="kbc correct flex-grow-1">
+			<div className="question rounded-pill p-5 m-5 text-white border border-5 border-warning shadow-lg">
 				<h3 className="display-6">{questions[current].question}</h3>
 			</div>
 			<div className="options d-flex position-relative m-5 mt-auto border border-success">
